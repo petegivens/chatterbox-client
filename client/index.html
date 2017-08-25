@@ -26,7 +26,35 @@
     <div id="main">
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
+        <select name="rooms" id="roomSelect">
+          <option value="New Room">New Room...</option>
+          <option value="lobby">Lobby</option>
+        </select>
+        <form>
+          <input type="text"></input>
+          <button>Submit</button>
+        </form>
     </div>
-    <div id="chats"></div>
+    <div id="chats">
+    </div>
+
+    <script>
+      $(document).ready(function() {
+        var apiUrl = "http://parse.atx.hackreactor.com/chatterbox/classes/messages";
+        var app = new App(apiUrl);
+        app.send('');
+        $.get( apiUrl, function( data ) {
+          $( "#chats" ).html( data );
+          // console.log(data);
+        });
+
+        $('#roomSelect').on('change', function() {
+          app.currentRoom = this.value;
+          $('#chats').html('');
+          app.getMessagesForChannel();
+        })
+        //document.getElementById("roomSelect").value;
+      });
+    </script>
   </body>
 </html>
