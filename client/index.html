@@ -41,13 +41,8 @@
 
     <script>
       $(document).ready(function() {
-        var apiUrl = "http://parse.atx.hackreactor.com/chatterbox/classes/messages";
-        var app = new App(apiUrl);
+        // var app = new App();
         app.init();
-        $.get( apiUrl, function( data ) {
-          $( "#chats" ).html( data );
-          // console.log(data);
-        });
 
         $('#roomSelect').on('change', function() {
           app.currentRoom = this.value;
@@ -60,3 +55,10 @@
     </script>
   </body>
 </html>
+
+
+<div class = "messageBox">
+  <p class = "messageText">${message}</p>
+  <p class = "userName">${username}</p>
+  <p class = "timeStamp">${timeStamp}</p>
+</div>
