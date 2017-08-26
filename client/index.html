@@ -7,6 +7,7 @@
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/moment/moment.js"> </script>
     <script>
       // YOU DO NOT NEED TO EDIT THIS CODE
       if (!/(&|\?)username=/.test(window.location.search)) {
@@ -42,7 +43,7 @@
       $(document).ready(function() {
         var apiUrl = "http://parse.atx.hackreactor.com/chatterbox/classes/messages";
         var app = new App(apiUrl);
-        app.send('');
+        app.init();
         $.get( apiUrl, function( data ) {
           $( "#chats" ).html( data );
           // console.log(data);
@@ -50,6 +51,7 @@
 
         $('#roomSelect').on('change', function() {
           app.currentRoom = this.value;
+          console.log('current room:', app.currentRoom);
           $('#chats').html('');
           app.getMessagesForChannel();
         })

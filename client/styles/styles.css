@@ -87,4 +87,21 @@ form input[type=text] {
     color: #fff;
     background-color: #0090da;
 }
+.messageBox {
+    border: solid 2px;
+    margin: 5px;
+    padding: 10px;
+}
+.message {
 
+}
+.user {
+  text-align: right;
+  font-size: 15px;
+}
+
+.timeStamp {
+  text-align: right;
+  font-size: 10px;
+  font-style: italic;
+}

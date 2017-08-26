@@ -3,6 +3,7 @@ var App = function(url) {
   this.username = '';
   this.currentRoom;
   this.messages = [];
+  this.data;
 };
 
 App.prototype.setUser = function(username) {
@@ -10,7 +11,8 @@ App.prototype.setUser = function(username) {
 };
 
 App.prototype.init = function() {
-
+  var context = this;
+  setInterval(function() {context.getMessagesForChannel();}, 5000);
 };
 
 App.prototype.send = function(message) {
@@ -19,13 +21,17 @@ App.prototype.send = function(message) {
 
 App.prototype.fetch = function() {
 
-  //change this to $.ajax
-
-  var result = $.get(this.apiUrl, function(x) {
-    console.log('x', x);
-    return x;
+  $.ajax({
+    url: this.apiUrl,
+    type: 'GET',
+    success: function (data) {
+      console.log('Message received',data);
+      this.data = data;
+    },
+    error: function (data) {
+      console.error('fetch failed :( ', data);
+    }
   });
-  return result;
 };
 
 App.prototype.clearMessages = function () {
@@ -37,23 +43,32 @@ App.prototype.renderMessage = function (messageObj) {
   var username = messageObj.username;
   var message = messageObj.text;
   var timeStamp = messageObj.updatedAt;
-  $('#chats').prepend('<div class="message"><h2>' + messageObj.text + '</h2></div>');
-  // $('#chat').prepend("
-  // <div class = 'message'>
-  //   <div class = 'user' > username
-  //   </div> <div class = 'message'> message </div>
-  //   <div id = 'time'> timeStamp </div>
-  // <div> ");
+  timeStamp = moment(timeStamp).startOf('day').fromNow();
+  $('#chats').prepend('<div class = "messageBox">' +
+                        '<div class="text">' + message + '</div>' +
+                        '<div class = "user"> <a href = "#">' + username + '</a> </div>' +
+                        '<div class = "timeStamp">' + timeStamp + '</div>' +
+                      '</div>'
+                      );
 };
 
 App.prototype.getMessagesForChannel = function () {
-  var data = this.fetch();
-  console.log('results:', data);
-  // data.responseJSON.results.forEach(function(message) {
-  //   if(message.room === this.currentRoom) {
-  //     this.renderMessage(message);
-  //   }
-  // })
+  var context = this;
+  $.ajax({
+    url: this.apiUrl,
+    type: 'GET',
+    success: function (data) {
+      $('#chats').html('');
+      data.results.forEach(function(message) {
+        if(message.roomname === context.currentRoom) {
+          App.prototype.renderMessage(message);
+        }
+      });
+    },
+    error: function (data) {
+      console.error('fetch failed :( ', data);
+    }
+  });
 };
 
 App.prototype.renderRoom = function (room) {
