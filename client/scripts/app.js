@@ -12,7 +12,7 @@ App.prototype.setUser = function(username) {
 
 App.prototype.init = function() {
   var context = this;
-  setInterval(function() {context.getMessagesForChannel();}, 5000);
+  // setInterval(function() {context.getMessagesForChannel();}, 5000);
 };
 
 App.prototype.send = function(message) {
