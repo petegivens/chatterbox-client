@@ -29,11 +29,11 @@
       <!-- Your HTML goes here! -->
         <select name="rooms" id="roomSelect">
           <option value="New Room">New Room...</option>
-          <option value="lobby">Lobby</option>
+          <option value="lobby" selected="selected">Lobby</option>
         </select>
-        <form>
-          <input type="text"></input>
-          <button>Submit</button>
+        <form id="send">
+          <input type="text" id="messageText"></input>
+          <button type="submit" id="submitMessageButton">Submit</button>
         </form>
     </div>
     <div id="chats">
@@ -41,24 +41,9 @@
 
     <script>
       $(document).ready(function() {
-        // var app = new App();
         app.init();
-
-        $('#roomSelect').on('change', function() {
-          app.currentRoom = this.value;
-          console.log('current room:', app.currentRoom);
-          $('#chats').html('');
-          app.getMessagesForChannel();
-        })
-        //document.getElementById("roomSelect").value;
       });
     </script>
+
   </body>
 </html>
-
-
-<div class = "messageBox">
-  <p class = "messageText">${message}</p>
-  <p class = "userName">${username}</p>
-  <p class = "timeStamp">${timeStamp}</p>
-</div>
